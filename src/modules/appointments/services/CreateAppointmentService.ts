@@ -26,13 +26,17 @@ class CreateAppointmentService {
   }: IRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
-    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
-      appointmentDate,
-    );
+    // const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+    //   appointmentDate,
+    //   provider_id,
+    // );
+    // if (user_id === provider_id) {
+    //   throw new AppError("You can't create an appointment with yourself.");
+    // }
 
-    if (findAppointmentInSameDate) {
-      throw new AppError('This appointment is already booked', 400);
-    }
+    // if (findAppointmentInSameDate) {
+    //   throw new AppError('This appointment is already booked', 400);
+    // }
 
     const appointment = await this.appointmentsRepository.create({
       provider_id,
