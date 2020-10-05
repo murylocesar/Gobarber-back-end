@@ -1,41 +1,51 @@
-import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
-import ListProviderAppointmentsService from './ListProviderAppointmentsService';
+import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
-let fakeCacheProvider: FakeCacheProvider;
-let listProviderAppointments: ListProviderAppointmentsService;
+let listProviderDayAvailability: ListProviderDayAvailabilityService;
 
-describe('ListProviderAppointments', () => {
+describe('ListProviderMonthAvailability', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
-    fakeCacheProvider = new FakeCacheProvider();
-    listProviderAppointments = new ListProviderAppointmentsService(
+    listProviderDayAvailability = new ListProviderDayAvailabilityService(
       fakeAppointmentsRepository,
-      fakeCacheProvider,
     );
   });
 
-  it('should be able to list the appointments on a specific day', async () => {
-    const appointment1 = await fakeAppointmentsRepository.create({
-      provider_id: 'provider',
+  it('should be able to list the day availability from provider', async () => {
+    await fakeAppointmentsRepository.create({
+      provider_id: 'user',
       user_id: 'user',
       date: new Date(2020, 4, 20, 14, 0, 0),
     });
 
-    const appointment2 = await fakeAppointmentsRepository.create({
-      provider_id: 'provider',
+    await fakeAppointmentsRepository.create({
+      provider_id: 'user',
       user_id: 'user',
       date: new Date(2020, 4, 20, 15, 0, 0),
     });
 
-    const appointments = await listProviderAppointments.execute({
-      provider_id: 'provider',
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2020, 4, 20, 11).getTime();
+    });
+
+    const availability = await listProviderDayAvailability.execute({
+      provider_id: 'user',
       year: 2020,
       month: 5,
       day: 20,
     });
 
-    expect(appointments).toEqual([appointment1, appointment2]);
+    expect(availability).toEqual(
+      expect.arrayContaining([
+        { hour: 8, available: false },
+        { hour: 9, available: false },
+        { hour: 10, available: false },
+        { hour: 13, available: true },
+        { hour: 14, available: false },
+        { hour: 15, available: false },
+        { hour: 16, available: true },
+      ]),
+    );
   });
 });
