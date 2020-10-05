@@ -20,21 +20,16 @@
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "rules": {
     "no-underscore-dangle": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
+    "@typescript-eslint/camelcase": "off",
     "no-useless-constructor": "off",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error"
-    ],
-    "camelcase": "off",
-    "@typescript-eslint/camelcase": [
-      "warn"
-    ],
+    "import/no-duplicates": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
