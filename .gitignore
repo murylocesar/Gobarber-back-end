@@ -7,4 +7,4 @@ temp/
 ormconfig.json
 
 tmp/*
-!tmp/.gitkeep
+!tmp/uploads

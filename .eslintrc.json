@@ -24,6 +24,11 @@
     "prettier"
   ],
   "rules": {
+    "eslint camelcase": [
+      "error",
+      {"ignoreGlobals": true
+      }
+    ],
     "no-underscore-dangle": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
