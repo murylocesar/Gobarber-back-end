@@ -1,6 +1,8 @@
 import { startOfHour, isBefore, getHours, format } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 
+import ptBR from 'date-fns/locale/pt-BR';
+
 import AppError from '@shared/errors/AppError';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
@@ -33,6 +35,8 @@ class CreateAppointmentService {
     user_id,
   }: IRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
+
+    appointmentDate.setHours(date.getHours() + 3);
 
     if (isBefore(appointmentDate, Date.now())) {
       throw new AppError("You can't create an appointemnt on a past date.");
