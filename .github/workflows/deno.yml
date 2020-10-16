@@ -15,10 +15,6 @@ jobs:
         uses: actions/setup-node@v1.4.2
         with:
           node-version: 12.x 
-      
-      # Instalar as dependências NPM/Yarn
-      - name: Install dependencies
-        run: yarn
           
       # Executar a build
       - name: Run build
